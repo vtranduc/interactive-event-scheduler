@@ -21,6 +21,7 @@ function App() {
   const [profile, setProfile] = useState(null);
   const [socket, setSocket] = useState(null);
   const [routeDirector, setRouteDirector] = useState(null);
+  const [searchStr, setSearchStr] = useState("");
   let handleCookieCatch;
   useEffect(() => {
     console.log("initializing the application...");
@@ -57,6 +58,9 @@ function App() {
       routeDirector={routeDirector}
       setRouteDirector={setRouteDirector}
       logo={logo}
+      // socket={socket}
+      // searchStr={searchStr}
+      setSearchStr={setSearchStr}
       // navBarHeight={navBarHeight}
       {...props}
     ></NavBar>

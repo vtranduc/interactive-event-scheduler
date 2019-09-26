@@ -3,6 +3,8 @@ import EventShow from "./EventShow";
 import "./Home.css";
 import FullWidthBtnGroup from "../fullWidthBtnGroup/FullWidthBtnGroup";
 import EventCreate from "./EventCreate";
+import SearchBox from "./SearchBox";
+import endSpaceRemover from "../../helpers/endSpaceRemover";
 
 const ALL = "ALL";
 const CREATE = "CREATE";
@@ -10,12 +12,15 @@ const UPCOMING = "UPCOMING";
 const HAPPENING = "HAPPENING";
 const PAST = "PAST";
 const DISCOVER = "DISCOVER";
+const SEARCH = "SEARCH";
 
 export default function Home({ profile, socket }) {
   const [feeds, setFeeds] = useState(null);
   const [discovery, setDiscovery] = useState(null);
   const [filteredFeeds, setFilteredFeeds] = useState(null);
   const [feedMode, setFeedMode] = useState(null);
+  const [searchStr, setSearchStr] = useState("");
+  const [searchedFeeds, setSearchedFeeds] = useState([]);
   const [createData, setCreateData] = useState({
     trigger: false,
     // success: false,
@@ -65,6 +70,13 @@ export default function Home({ profile, socket }) {
       }
     },
     {
+      key: SEARCH,
+      text: "SEARCH",
+      onClick: () => {
+        setFeedMode(SEARCH);
+      }
+    },
+    {
       key: DISCOVER,
       text: "Discover",
       onClick: () => {
@@ -111,13 +123,20 @@ export default function Home({ profile, socket }) {
       socket.emit("eventRetrieve", { userId: profile.id, modeSwitch: null });
     };
     socket.on("updateFeeds", handleUpdateFeeds);
+    const handleSearchedEvents = data => {
+      console.log("getting my data HERE", data);
+      setSearchedFeeds(data.searchResult);
+    };
+    socket.on("searchedEvent", handleSearchedEvents);
     return () => {
       socket.removeListener("loadHomeData", handleLoadHomeData);
       socket.removeListener("eventCreateResponse", handleEventCreateResponse);
       socket.removeListener("discoverEvents", handleDiscoverEvents);
       socket.removeListener("updateFeeds", handleUpdateFeeds);
+      socket.removeListener("searchedEvent", handleSearchedEvents);
     };
   }, [profile, socket]);
+
   useEffect(() => {
     if (feeds && socket) {
       const today = new Date();
@@ -150,6 +169,8 @@ export default function Home({ profile, socket }) {
           // console.log("DISCOVER shown");
           socket.emit("discoverEvents", profile.id);
           break;
+        case SEARCH:
+          break;
         default:
           break;
       }
@@ -171,7 +192,17 @@ export default function Home({ profile, socket }) {
     }
   }, [createData.trigger]);
 
-  // useEffect(()=>)
+  // useEffect(() => {
+  //   console.log("real time search: ", searchStr);
+  // }, [searchStr]);
+
+  const handleSearch = () => {
+    console.log("sending up: ", searchStr);
+    const str = endSpaceRemover(searchStr);
+    if (str) {
+      socket.emit("searchEvent", { search: str });
+    }
+  };
 
   return (
     <div className="homeParent">
@@ -219,6 +250,33 @@ export default function Home({ profile, socket }) {
                 ></EventShow>
               ))}
             </div>
+          )}
+          {feedMode === SEARCH && (
+            <>
+              <div className="homeSearched">
+                <div className="searchBoxWrapper">
+                  <div className="searchBoxWrapperAssist">
+                    <SearchBox
+                      searchStr={searchStr}
+                      setSearchStr={setSearchStr}
+                      onSearch={handleSearch}
+                    ></SearchBox>
+                  </div>
+                </div>
+                <div className="searchResult">
+                  {searchedFeeds.map((e, i) => (
+                    <EventShow
+                      key={`searched_event_${e.id}`}
+                      event={e}
+                      id={profile.id}
+                      socket={socket}
+                      marginTop={i === 0 ? "60px" : null}
+                    ></EventShow>
+                  ))}
+                </div>
+                {/* </div> */}
+              </div>
+            </>
           )}
         </div>
       ) : (

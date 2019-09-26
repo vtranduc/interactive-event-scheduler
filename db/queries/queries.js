@@ -165,6 +165,31 @@ const editEvent = (data, pool) =>
     ]
   });
 
+const searchEvent = (key, pool) => {
+  let response;
+  return pool
+    .query({
+      text: `SELECT events.id, creator_id, name, picture, description, location, start_time, end_time, created_time,
+      first_name, last_name, bio, avatar, background
+      FROM events
+      JOIN users ON users.id = creator_id
+      WHERE name ILIKE $1
+      OR description ILIKE $1
+      OR location ILIKE $1`,
+      values: [`%${key}%`]
+    })
+    .then(res1 => res1.rows)
+    .then(res2 => {
+      response = res2;
+      return retrieveParticipantsMultiple(res2.map(e => e.id), pool);
+    })
+    .then(res3 =>
+      response.map((e, i) => {
+        return { ...e, participants: res3[i] };
+      })
+    );
+};
+
 module.exports = {
   retrieveProfileByEmail,
   registerNewUser,
@@ -174,5 +199,6 @@ module.exports = {
   leaveEvent,
   joinEvent,
   retrieveEditableEventData,
-  editEvent
+  editEvent,
+  searchEvent
 };

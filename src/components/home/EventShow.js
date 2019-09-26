@@ -21,39 +21,34 @@ import BtnSpecifiedColor from "../btnSpecifiedColor/BtnSpecifiedColor";
 // import EventDetailsShow from "./EventDetailsShow";
 import CustomizedPopover from "./customizedPopover";
 
-const useStyles = makeStyles(theme => ({
-  card: {
-    // maxWidth: 345
-  },
-  media: {
-    height: 0,
-    paddingTop: "56.25%" // 16:9
-  },
-  expand: {
-    transform: "rotate(0deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest
-    })
-  },
-  expandOpen: {
-    transform: "rotate(180deg)"
-  },
-  avatar: {
-    backgroundColor: red[500]
-  }
-}));
-
-// const useStylesButton = makeStyles({
-//   root: {
-//     background: "#ab47bc"
-//   }
-// });
-
 const btnHeight = "36px";
 const btnWidth = "100px";
 
-export default function EventShow({ event, id, socket }) {
+export default function EventShow({ event, id, socket, marginTop }) {
+  const useStyles = makeStyles(theme => ({
+    card: {
+      // maxWidth: 345
+      marginTop: marginTop ? marginTop : "auto"
+    },
+    media: {
+      height: 0,
+      paddingTop: "56.25%" // 16:9
+    },
+    expand: {
+      transform: "rotate(0deg)",
+      marginLeft: "auto",
+      transition: theme.transitions.create("transform", {
+        duration: theme.transitions.duration.shortest
+      })
+    },
+    expandOpen: {
+      transform: "rotate(180deg)"
+    },
+    avatar: {
+      backgroundColor: red[500]
+    }
+  }));
+
   const classes = useStyles();
   // const classesButton = useStylesButton();
   const [expanded, setExpanded] = React.useState(false);
@@ -81,8 +76,10 @@ export default function EventShow({ event, id, socket }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title={event.name}
-        subheader={`${event.start} until ${event.end}`}
+        title={
+          event.location ? `${event.name} at ${event.location}` : event.name
+        }
+        subheader={`${event.start} until ${event.end}\nfdsa`}
       />
       <CardMedia
         className={classes.media}

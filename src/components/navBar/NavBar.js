@@ -17,7 +17,10 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Cookies from "universal-cookie";
+import useKeyPress from "../../helpers/useKeyPress";
 import "./NavBar.css";
+import endSpaceRemover from "../../helpers/endSpaceRemover";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -69,13 +72,13 @@ const useStyles = makeStyles(theme => ({
   },
   sectionDesktop: {
     display: "none",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up(460)]: {
       display: "flex"
     }
   },
   sectionMobile: {
     display: "flex",
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("sm")]: {
       display: "none"
     }
   }
@@ -85,14 +88,15 @@ export default function NavBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  // const [searchStrNav, setSearchStrNav] = React.useState("");
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   //====MY ALGORITHM HERE=======================
   useEffect(() => {
-    // console.log("show my path please: ", props.location.pathname);
+    console.log("show my path please: ", props.location.pathname);
     if (props.location.pathname === props.routeDirector) {
-      // console.log("time to stop");
+      console.log("time to stop");
       //THIS IS A GOOD TIME TO CHECK FOR COOKIE!!!!!
       props.setRouteDirector(null);
     }
@@ -234,6 +238,30 @@ export default function NavBar(props) {
     </Menu>
   );
 
+  const Enter = useKeyPress("Enter");
+  useEffect(() => {
+    if (
+      Enter &&
+      document.activeElement === document.getElementById("searchInputField")
+    ) {
+      // console.log("hatsune miku here", searchStr);
+      // props.socket.emit("searchEvent", { search: endSpaceRemover(searchStr) });
+      //   if (
+      //     document.activeElement === document.getElementById("emailLogin") ||
+      //     document.activeElement === document.getElementById("passwordLogin")
+      //   ) {
+      //     handleSubmission(loginInfo, setLoginInfo, socket);
+      //   } else {
+      //     document.getElementById("emailLogin").focus();
+      //   }
+    }
+  }, [Enter]);
+
+  // useEffect(() => {
+  //   console.log("setting home val");
+  //   props.setSearchStr(searchStrNav);
+  // }, [searchStrNav]);
+
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -271,19 +299,44 @@ export default function NavBar(props) {
             Event scheduler
           </Typography>
           {/* ======== UNCOMMENT THIS PART FOR NICE SEARCHBAR!!!!========== */}
-          <div className={classes.search}>
+          {/* <TextField
+            id="outlined-name"
+            label="Name"
+            // className={classes.textField}
+            // value={values.name}
+            // onChange={handleChange("name")}
+            margin="normal"
+            variant="outlined"
+          /> */}
+
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+              <SearchIcon
+              // onClick={() => {
+              //   console.log("make some noise!");
+              // }}
+              />
             </div>
+
             <InputBase
-              placeholder="Search…"
+              // id="searchInputField"
+
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput
               }}
               inputProps={{ "aria-label": "search" }}
+              onChange={e => {
+                // setTest(e.target.value);
+                setSearchStrNav(e.target.value);
+                // props.setSearchStr(e.target.value);
+              }}
+              // value={test}
+              value={searchStrNav}
+              // value="you are my friend"
             />
-          </div>
+
+          </div> */}
           {/* ======== FIN======================================================= */}
           <div className={classes.grow} />
           {/* ================================================== */}

@@ -7,7 +7,8 @@ const {
   leaveEvent,
   joinEvent,
   retrieveEditableEventData,
-  editEvent
+  editEvent,
+  searchEvent
 } = require("../../../db/queries/queries");
 
 const eventDataAccess = function(
@@ -102,10 +103,60 @@ const eventDataAccess = function(
   });
 
   socket.on("editEvent", data => {
-    // console.log("edit reached the server", data);
     editEvent(data, pool).then(() => {
       io.to(socket.id).emit("updateFeeds");
       io.to(socket.id).emit(`editResponse-${data.id}`);
+    });
+  });
+
+  socket.on("searchEvent", data => {
+    searchEvent(data.search, pool).then(res => {
+      // const test = res.map(e => {
+      //   return {
+      //     id: e.id,
+      //     name: e.name,
+      //     picture: e.picture,
+      //     description: e.description,
+      //     location: e.location,
+      //     start: e.start_time,
+      //     end: e.end_time,
+      //     createdDate: e.created_time,
+      //     admin: false,
+      //     participants: e.participants,
+      //     creator: {
+      //       id: e.creator_id,
+      //       firstName: e.first_name,
+      //       lastName: e.last_name,
+      //       avatar: e.avatar ? e.avatar : avatarDefault,
+      //       background: e.background ? e.background : backgroundDefault,
+      //       bio: e.bio
+      //     }
+      //   };
+      // });
+      io.to(socket.id).emit("searchedEvent", {
+        searchResult: res.map(e => {
+          return {
+            id: e.id,
+            name: e.name,
+            picture: e.picture,
+            description: e.description,
+            location: e.location,
+            start: e.start_time,
+            end: e.end_time,
+            createdDate: e.created_time,
+            admin: false,
+            participants: e.participants,
+            creator: {
+              id: e.creator_id,
+              firstName: e.first_name,
+              lastName: e.last_name,
+              avatar: e.avatar ? e.avatar : avatarDefault,
+              background: e.background ? e.background : backgroundDefault,
+              bio: e.bio
+            }
+          };
+        })
+      });
     });
   });
 };

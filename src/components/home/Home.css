@@ -34,3 +34,36 @@
   margin-bottom: 0px;
   overflow: auto;
 }
+
+.homeSearched {
+  height: 90%;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  position: relative;
+}
+
+.searchBoxWrapper {
+  position: absolute;
+  z-index: 2000;
+  /* top: 2vh; */
+  width: 100%;
+  /* display: inline-block; */
+  /* border: solid red; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.searchBoxWrapperAssist {
+  width: 90%;
+}
+
+.searchResult {
+  overflow: auto;
+  height: 82vh;
+  bottom: 1vh;
+  position: absolute;
+  margin-top: 80px;
+  z-index: 1000;
+  display: inline-block;
+}
