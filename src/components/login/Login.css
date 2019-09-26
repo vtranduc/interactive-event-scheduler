@@ -1,0 +1,11 @@
+.paperWrapperLogin {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.buttonLogin {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}

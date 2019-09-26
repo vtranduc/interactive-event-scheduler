@@ -1,0 +1,7 @@
+.Button:disabled {
+  /* color: green; */
+  border: solid 10px;
+  opacity: 1;
+  background-color: "green";
+  z-index: 1000;
+}

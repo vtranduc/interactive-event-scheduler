@@ -1,0 +1,68 @@
+.eventPaper {
+  /* border: solid red; */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 650px;
+}
+
+.goersTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px;
+}
+
+.joinedAvatar {
+  /* border: solid red; */
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+  margin: 12px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.joinedAvatarWrapper {
+  /* border: solid green; */
+  width: 60px;
+  height: 60px;
+  margin-left: 15px;
+}
+
+.eventBtnWrapper {
+  /* border: solid; */
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.individualEventBtnWrapper {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+/* .eventBtn {
+  border: solid red;
+  margin: 1em;
+} */
+
+/* {
+  id: e.event_id,
+  name: e.name,
+  picture: e.picture,
+  description: e.description,
+  location: e.location,
+  start: e.start_time,
+  end: e.end_time,
+  createdDate: e.created_time,
+  joinedData: e.joined_time,
+  admin: e.admin,
+  participants: e.participants,
+  creator: {
+    id: e.creator_id,
+    firstName: e.first_name,
+    lastName: e.last_name,
+    avatar: e.avatar ? e.avatar : avatarDefault,
+    background: e.background ? e.background : backgroundDefault,
+    bio: e.bio
+  } */

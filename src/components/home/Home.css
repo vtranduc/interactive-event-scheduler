@@ -1,0 +1,36 @@
+.homeParent {
+  /* border: solid green; */
+  position: relative;
+  top: 0px;
+  /* height: 50vh; */
+  width: 100%;
+  /* overflow: auto; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100%;
+}
+
+.homeChildWrapper {
+  height: 100%;
+  /* border: solid red; */
+}
+
+#eventCategoryBtns {
+  margin-top: 0px;
+  /* border: solid green; */
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 8%;
+  width: 650px;
+}
+
+.homeChild {
+  /* border: solid black 10px; */
+  height: 90%;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  overflow: auto;
+}
