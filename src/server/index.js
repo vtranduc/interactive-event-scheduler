@@ -14,6 +14,7 @@ const pool = new Pool({
 const bcrypt = require("bcrypt");
 const userConnection = require("./userConnection/index");
 const eventDataAccess = require("./eventDataAccess/index");
+const profileDataAccess = require("./profile/index");
 
 // const online = {};
 const avatarDefault =
@@ -31,4 +32,5 @@ io.on("connection", socket => {
   });
   userConnection(socket, io, pool, bcrypt, avatarDefault);
   eventDataAccess(socket, io, pool, avatarDefault, backgroundDefault);
+  profileDataAccess(socket, io, pool, avatarDefault, backgroundDefault);
 });

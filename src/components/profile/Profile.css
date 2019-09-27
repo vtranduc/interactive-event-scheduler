@@ -5,3 +5,26 @@
   background-color: "green";
   z-index: 1000;
 }
+
+.paper {
+  width: 90vw;
+  border: solid red;
+  margin: 20px;
+  overflow: auto;
+}
+
+.paperFiller {
+  display: flex;
+  border: solid;
+  height: 10px;
+  flex-direction: row;
+}
+
+.paperLeft {
+  width: 30%;
+}
+
+.paperRight {
+  width: 70%;
+  border: solid green;
+}

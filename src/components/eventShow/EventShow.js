@@ -20,14 +20,16 @@ import CircularAvatar from "../circularAvatar/CircularAvatar";
 import BtnSpecifiedColor from "../btnSpecifiedColor/BtnSpecifiedColor";
 // import EventDetailsShow from "./EventDetailsShow";
 import CustomizedPopover from "./customizedPopover";
+import addLineBreaks from "../../helpers/addLineBreaks";
 
 const btnHeight = "36px";
 const btnWidth = "100px";
 
-export default function EventShow({ event, id, socket, marginTop }) {
+export default function EventShow({ event, id, socket, marginTop, width }) {
   const useStyles = makeStyles(theme => ({
     card: {
-      // maxWidth: 345
+      // maxWidth: 345,
+      width: width ? width : "auto",
       marginTop: marginTop ? marginTop : "auto"
     },
     media: {
@@ -57,6 +59,15 @@ export default function EventShow({ event, id, socket, marginTop }) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  // React.useEffect(() => {
+  //   console.log("What is my description? ", event.description);
+  //   // return () => {
+  //   //   cleanup
+  //   // };
+  // }, []);
+
+  // <h1>{addLineBreaks(heading)}</h1>;
 
   return (
     <Card className={`${classes.card} eventPaper`}>
@@ -179,7 +190,8 @@ export default function EventShow({ event, id, socket, marginTop }) {
       {/* ===== EXPANDABLE ============================================== */}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <h1>ok let us put this for now</h1>
+          <h3>Description</h3>
+          <p>{addLineBreaks(event.description)}</p>
           {/* <EventDetailsShow></EventDetailsShow> */}
           {/* <Typography paragraph>Method:</Typography>
           <Typography paragraph>
@@ -212,6 +224,7 @@ export default function EventShow({ event, id, socket, marginTop }) {
       </Collapse>
       {/* ========================================================== */}
     </Card>
+    // </>
   );
 }
 

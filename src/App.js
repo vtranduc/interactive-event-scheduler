@@ -21,7 +21,8 @@ function App() {
   const [profile, setProfile] = useState(null);
   const [socket, setSocket] = useState(null);
   const [routeDirector, setRouteDirector] = useState(null);
-  const [searchStr, setSearchStr] = useState("");
+  const [initializingState, setInitializingState] = useState(false);
+  // const [searchStr, setSearchStr] = useState("");
   let handleCookieCatch;
   useEffect(() => {
     console.log("initializing the application...");
@@ -32,6 +33,8 @@ function App() {
       const cookies = new Cookies();
       if (cookies.get("user")) {
         socket.emit("userConnectionLoadCookie", cookies.get("user"));
+      } else {
+        setInitializingState(true);
       }
       handleCookieCatch = function(data) {
         console.log("received", data);
@@ -40,6 +43,7 @@ function App() {
         } else {
           cookies.remove("user");
         }
+        setInitializingState(true);
       };
       socket.on("cookieCatch", handleCookieCatch);
     }
@@ -60,14 +64,14 @@ function App() {
       logo={logo}
       // socket={socket}
       // searchStr={searchStr}
-      setSearchStr={setSearchStr}
+      // setSearchStr={setSearchStr}
       // navBarHeight={navBarHeight}
       {...props}
     ></NavBar>
   ));
   return (
     <div>
-      {socket ? (
+      {initializingState ? (
         <Router>
           {routeDirector && <Redirect to={routeDirector}></Redirect>}
           <NavBarWithRouter />
@@ -78,12 +82,35 @@ function App() {
                 path="/"
                 exact
                 render={() => {
+                  if (!profile) {
+                    setRouteDirector("/login");
+                  }
                   return (
                     <div className="overlayAssistScroll">
                       {profile ? (
                         <Home socket={socket} profile={profile}></Home>
                       ) : (
                         <h3>Oops you are logged out</h3>
+                      )}
+                    </div>
+                  );
+                }}
+              ></Route>
+              <Route
+                path="/user/:username"
+                exact
+                render={props => {
+                  // setRouteDirector("/yaminoma");
+                  // console.log("GO HERE PLEASSE");
+                  if (!profile) {
+                    setRouteDirector("/login");
+                  }
+                  return (
+                    <div className="overlayApp">
+                      {profile ? (
+                        <Profile profile={profile} {...props}></Profile>
+                      ) : (
+                        <h3>You must be logged in. Redirecting...</h3>
                       )}
                     </div>
                   );
@@ -106,6 +133,9 @@ function App() {
                 path="/signup"
                 exact
                 render={() => {
+                  if (profile) {
+                    setRouteDirector("/");
+                  }
                   return (
                     <div className="overlayAssistApp">
                       {profile ? (
@@ -124,6 +154,9 @@ function App() {
                 path="/login"
                 exact
                 render={() => {
+                  if (profile) {
+                    setRouteDirector("/");
+                  }
                   return (
                     <div className="overlayAssistApp">
                       {profile ? (

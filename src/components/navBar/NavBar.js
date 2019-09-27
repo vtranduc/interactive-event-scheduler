@@ -93,14 +93,14 @@ export default function NavBar(props) {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   //====MY ALGORITHM HERE=======================
-  useEffect(() => {
-    console.log("show my path please: ", props.location.pathname);
-    if (props.location.pathname === props.routeDirector) {
-      console.log("time to stop");
-      //THIS IS A GOOD TIME TO CHECK FOR COOKIE!!!!!
-      props.setRouteDirector(null);
-    }
-  }, [props.location.pathname]);
+  // useEffect(() => {
+  //   console.log("show my path please: ", props.location.pathname);
+  //   if (props.location.pathname === props.routeDirector) {
+  //     console.log("time to stop");
+  //     //THIS IS A GOOD TIME TO CHECK FOR COOKIE!!!!!
+  //     props.setRouteDirector(null);
+  //   }
+  // }, [props.location.pathname]);
   //============================================
 
   const handleProfileMenuOpen = event => {
@@ -383,7 +383,7 @@ export default function NavBar(props) {
                   className="navBarBtnItems"
                   button
                   onClick={() => {
-                    console.log("go to Nozomi");
+                    props.setRouteDirector(`/user/${props.profile.id}`);
                   }}
                 >
                   {props.profile.firstName}

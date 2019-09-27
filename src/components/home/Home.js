@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import EventShow from "./EventShow";
+import EventShow from "../eventShow/EventShow";
 import "./Home.css";
 import FullWidthBtnGroup from "../fullWidthBtnGroup/FullWidthBtnGroup";
 import EventCreate from "./EventCreate";
@@ -227,6 +227,7 @@ export default function Home({ profile, socket }) {
                   event={e}
                   id={profile.id}
                   socket={socket}
+                  width={650}
                 ></EventShow>
               ))}
             </div>
@@ -247,6 +248,7 @@ export default function Home({ profile, socket }) {
                   event={e}
                   id={profile.id}
                   socket={socket}
+                  width={650}
                 ></EventShow>
               ))}
             </div>
@@ -271,6 +273,7 @@ export default function Home({ profile, socket }) {
                       id={profile.id}
                       socket={socket}
                       marginTop={i === 0 ? "60px" : null}
+                      width={650}
                     ></EventShow>
                   ))}
                 </div>
