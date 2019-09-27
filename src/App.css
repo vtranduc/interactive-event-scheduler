@@ -6,10 +6,14 @@
   top: 63px;
   bottom: 0px;
   z-index: -1000;
-  background-image: url("https://www.barraques.cat/pngfile/big/63-632531_love-live-school-idol-festival-wallpaper-love-live.jpg");
+  background-image: url("https://images6.alphacoders.com/816/816125.jpg");
   display: flex;
   flex-direction: row;
   justify-content: center;
+  overflow: hidden;
+  /* margin: 15px; */
+  background-size: cover;
+  background-repeat: no-repeat;
   /* object-fit: fill; */
 }
 

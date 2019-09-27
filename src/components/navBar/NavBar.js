@@ -389,7 +389,8 @@ export default function NavBar(props) {
                   {props.profile.firstName}
                 </ListItem>
               </List>
-              <IconButton aria-label="show 4 new mails" color="inherit">
+              {/* Icon buttons HERE========================================= */}
+              {/* <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
                 </Badge>
@@ -401,7 +402,8 @@ export default function NavBar(props) {
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
+              {/* ============================================================== */}
             </div>
           ) : (
             <div className={classes.sectionDesktop}>

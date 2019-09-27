@@ -19,7 +19,7 @@ const profileDataAccess = require("./profile/index");
 // const online = {};
 const avatarDefault =
   "https://icon-library.net/images/default-profile-icon/default-profile-icon-24.jpg";
-const backgroundDefault = `https://images4.alphacoders.com/692/692474.jpg`;
+const backgroundDefault = `https://images.alphacoders.com/567/567999.jpg`;
 
 server.listen(PORT, () => {
   console.log(`listening on Port ${PORT}`);

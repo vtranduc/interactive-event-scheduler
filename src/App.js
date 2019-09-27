@@ -14,7 +14,7 @@ import Test from "./components/test/Test";
 
 const serverPORT = 3001;
 const logo =
-  "https://cdn3.iconfinder.com/data/icons/picons-social/57/56-apple-512.png";
+  "https://upload.wikimedia.org/wikipedia/commons/5/5c/Olympic_rings_without_rims.svg";
 // const navBarHeight = "7vh";
 
 function App() {
