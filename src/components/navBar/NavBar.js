@@ -150,7 +150,7 @@ export default function NavBar(props) {
       <MenuItem
         onClick={() => {
           // handleRouteDirection("/profile");
-          props.setRouteDirector("/profile");
+          props.setRouteDirector(`/user/${props.profile.id}`);
           handleMenuClose();
         }}
       >

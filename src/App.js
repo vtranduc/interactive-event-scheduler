@@ -39,7 +39,7 @@ function App() {
       handleCookieCatch = function(data) {
         console.log("received", data);
         if (data) {
-          setProfile(data.profile);
+          setProfile(() => data.profile);
         } else {
           cookies.remove("user");
         }
@@ -88,7 +88,11 @@ function App() {
                   return (
                     <div className="overlayAssistScroll">
                       {profile ? (
-                        <Home socket={socket} profile={profile}></Home>
+                        <Home
+                          socket={socket}
+                          profile={profile}
+                          setRouteDirector={setRouteDirector}
+                        ></Home>
                       ) : (
                         <h3>Oops you are logged out</h3>
                       )}
@@ -108,7 +112,14 @@ function App() {
                   return (
                     <div className="overlayApp">
                       {profile ? (
-                        <Profile profile={profile} {...props}></Profile>
+                        <Profile
+                          profile={profile}
+                          setProfile={setProfile}
+                          socket={socket}
+                          routeDirector={routeDirector}
+                          setRouteDirector={setRouteDirector}
+                          {...props}
+                        ></Profile>
                       ) : (
                         <h3>You must be logged in. Redirecting...</h3>
                       )}

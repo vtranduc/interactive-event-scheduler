@@ -30,7 +30,7 @@ io.on("connection", socket => {
   socket.on("disconnect", () => {
     console.log("Disconnected: ", socket.id);
   });
-  userConnection(socket, io, pool, bcrypt, avatarDefault);
+  userConnection(socket, io, pool, bcrypt, avatarDefault, backgroundDefault);
   eventDataAccess(socket, io, pool, avatarDefault, backgroundDefault);
   profileDataAccess(socket, io, pool, avatarDefault, backgroundDefault);
 });

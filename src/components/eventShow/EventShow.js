@@ -25,7 +25,14 @@ import addLineBreaks from "../../helpers/addLineBreaks";
 const btnHeight = "36px";
 const btnWidth = "100px";
 
-export default function EventShow({ event, id, socket, marginTop, width }) {
+export default function EventShow({
+  event,
+  id,
+  socket,
+  marginTop,
+  width,
+  setRouteDirector
+}) {
   const useStyles = makeStyles(theme => ({
     card: {
       // maxWidth: 345,
@@ -60,27 +67,21 @@ export default function EventShow({ event, id, socket, marginTop, width }) {
     setExpanded(!expanded);
   };
 
-  // React.useEffect(() => {
-  //   console.log("What is my description? ", event.description);
-  //   // return () => {
-  //   //   cleanup
-  //   // };
-  // }, []);
-
-  // <h1>{addLineBreaks(heading)}</h1>;
-
   return (
     <Card className={`${classes.card} eventPaper`}>
       <CardHeader
         avatar={
-          // <Avatar aria-label="recipe" className={classes.avatar}>
-          //   R
-          // </Avatar>
-          <CircularAvatar
-            avatarPath={event.creator.avatar}
-            diameter={"60px"}
-            // style={{ border: "solid 10px" }}
-          ></CircularAvatar>
+          <div
+            className="joinedAvatarWrapper"
+            onClick={() => {
+              setRouteDirector(`/user/${event.creator.id}`);
+            }}
+          >
+            <CircularAvatar
+              avatarPath={event.creator.avatar}
+              diameter={"60px"}
+            ></CircularAvatar>
+          </div>
         }
         action={
           <IconButton aria-label="settings">
@@ -97,21 +98,20 @@ export default function EventShow({ event, id, socket, marginTop, width }) {
         image={event.picture}
         title={event.name}
       />
-      {/* <CardContent className="joinedAvatar"> */}
       <div className="goersTitle">
         <Typography variant="body2" color="textSecondary" component="p">
           These people are going!
         </Typography>
       </div>
       <div className="joinedAvatar">
-        {/* <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography> */}
-
         {event.participants.map(e => (
-          <div className="joinedAvatarWrapper" key={e.user_id}>
+          <div
+            className="joinedAvatarWrapper"
+            key={e.user_id}
+            onClick={() => {
+              setRouteDirector(`/user/${e.user_id}`);
+            }}
+          >
             <CircularAvatar
               avatarPath={e.avatar}
               diameter={"60px"}
@@ -127,54 +127,56 @@ export default function EventShow({ event, id, socket, marginTop, width }) {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton> */}
-        <div className="eventBtnWrapper">
-          {event.participants.map(e => e.user_id).includes(id) ? (
-            <div className="individualEventBtnWrapper">
-              <BtnSpecifiedColor
-                text="Leave"
-                onClick={() => {
-                  socket.emit("leaveEvent", {
-                    event_id: event.id,
-                    user_id: id
-                  });
-                }}
-                color="#f44336"
-                hoverColor="#b71c1c"
-                width={btnWidth}
-                height={btnHeight}
-              ></BtnSpecifiedColor>
-            </div>
-          ) : (
-            <div className="individualEventBtnWrapper">
-              <BtnSpecifiedColor
-                text="Join"
-                onClick={() => {
-                  socket.emit("joinEvent", {
-                    event_id: event.id,
-                    user_id: id
-                  });
-                }}
-                color="#69f0ae"
-                hoverColor="#00c853"
-                width={btnWidth}
-                height={btnHeight}
-              ></BtnSpecifiedColor>
-            </div>
-          )}
-          {event.admin && (
-            <div className="individualEventBtnWrapper">
-              <CustomizedPopover
-                btnText="Edit"
-                btnColor="#ffeb3b"
-                btnHoverColor="#fbc02d"
-                btnWidth={btnWidth}
-                btnHeight={btnHeight}
-                socket={socket}
-                eventId={event.id}
-              ></CustomizedPopover>
-            </div>
-          )}
-        </div>
+        {new Date().getTime() < new Date(event.end).getTime() && (
+          <div className="eventBtnWrapper">
+            {event.participants.map(e => e.user_id).includes(id) ? (
+              <div className="individualEventBtnWrapper">
+                <BtnSpecifiedColor
+                  text="Leave"
+                  onClick={() => {
+                    socket.emit("leaveEvent", {
+                      event_id: event.id,
+                      user_id: id
+                    });
+                  }}
+                  color="#f44336"
+                  hoverColor="#b71c1c"
+                  width={btnWidth}
+                  height={btnHeight}
+                ></BtnSpecifiedColor>
+              </div>
+            ) : (
+              <div className="individualEventBtnWrapper">
+                <BtnSpecifiedColor
+                  text="Join"
+                  onClick={() => {
+                    socket.emit("joinEvent", {
+                      event_id: event.id,
+                      user_id: id
+                    });
+                  }}
+                  color="#69f0ae"
+                  hoverColor="#00c853"
+                  width={btnWidth}
+                  height={btnHeight}
+                ></BtnSpecifiedColor>
+              </div>
+            )}
+            {event.admin && (
+              <div className="individualEventBtnWrapper">
+                <CustomizedPopover
+                  btnText="Edit"
+                  btnColor="#ffeb3b"
+                  btnHoverColor="#fbc02d"
+                  btnWidth={btnWidth}
+                  btnHeight={btnHeight}
+                  socket={socket}
+                  eventId={event.id}
+                ></CustomizedPopover>
+              </div>
+            )}
+          </div>
+        )}
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded
@@ -227,54 +229,3 @@ export default function EventShow({ event, id, socket, marginTop, width }) {
     // </>
   );
 }
-
-// import React from "react";
-// import { makeStyles } from "@material-ui/core/styles";
-// import Paper from "@material-ui/core/Paper";
-// import Typography from "@material-ui/core/Typography";
-// import "./EventShow.css";
-
-// const useStylesPaper = makeStyles(theme => ({
-//   root: {
-//     padding: theme.spacing(3, 2)
-//   }
-// }));
-
-// export default function EventShow({ event }) {
-//   const classesPaper = useStylesPaper();
-
-//   return (
-//     <div>
-//       <Paper className={`${classesPaper.root} eventPaper`}>
-//         <Typography variant="h5" component="h3">
-//           {event.name}
-//         </Typography>
-//         <Typography component="p">
-//           Paper can be used to build surface or other elements for your
-//           application.
-//         </Typography>
-//       </Paper>
-//     </div>
-//   );
-// }
-
-// {
-//   id: e.event_id,
-//   name: e.name,
-//   picture: e.picture,
-//   description: e.description,
-//   location: e.location,
-//   start: e.start_time,
-//   end: e.end_time,
-//   createdDate: e.created_time,
-//   joinedData: e.joined_time,
-//   admin: e.admin,
-//   participants: e.participants,
-//   creator: {
-//     id: e.creator_id,
-//     firstName: e.first_name,
-//     lastName: e.last_name,
-//     avatar: e.avatar ? e.avatar : avatarDefault,
-//     background: e.background ? e.background : backgroundDefault,
-//     bio: e.bio
-//   }

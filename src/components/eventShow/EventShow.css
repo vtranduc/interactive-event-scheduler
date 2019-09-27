@@ -27,6 +27,7 @@
   width: 60px;
   height: 60px;
   margin-left: 15px;
+  cursor: pointer;
 }
 
 .eventBtnWrapper {
@@ -40,6 +41,10 @@
   margin-right: 5px;
   margin-left: 5px;
 }
+
+/* #clickableAvatarWrap {
+  cursor: pointer;
+} */
 
 /* .eventBtn {
   border: solid red;

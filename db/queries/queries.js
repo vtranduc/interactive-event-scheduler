@@ -1,7 +1,15 @@
+const retrieveProfileById = (id, pool) =>
+  pool
+    .query({
+      text: `SELECT first_name, last_name, bio, avatar, background FROM users WHERE id = $1`,
+      values: [id]
+    })
+    .then(res => res.rows[0]);
+
 const retrieveProfileByEmail = (email, pool) =>
   pool
     .query({
-      text: `SELECT id, first_name, last_name, bio, avatar, pass FROM users WHERE email = $1`,
+      text: `SELECT id, first_name, last_name, bio, avatar, background, pass FROM users WHERE email = $1`,
       values: [email]
     })
     .then(res => res.rows);
@@ -190,6 +198,21 @@ const searchEvent = (key, pool) => {
     );
 };
 
+const updateProfile = (data, pool) =>
+  pool.query({
+    text: `UPDATE users
+    SET first_name = $1, last_name = $2, avatar = $3, background = $4, bio = $5
+    WHERE id = $6`,
+    values: [
+      data.first_name,
+      data.last_name,
+      data.avatar,
+      data.background,
+      data.bio,
+      data.id
+    ]
+  });
+
 module.exports = {
   retrieveProfileByEmail,
   registerNewUser,
@@ -200,5 +223,7 @@ module.exports = {
   joinEvent,
   retrieveEditableEventData,
   editEvent,
-  searchEvent
+  searchEvent,
+  retrieveProfileById,
+  updateProfile
 };

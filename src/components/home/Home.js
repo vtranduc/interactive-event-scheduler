@@ -14,7 +14,7 @@ const PAST = "PAST";
 const DISCOVER = "DISCOVER";
 const SEARCH = "SEARCH";
 
-export default function Home({ profile, socket }) {
+export default function Home({ profile, socket, setRouteDirector }) {
   const [feeds, setFeeds] = useState(null);
   const [discovery, setDiscovery] = useState(null);
   const [filteredFeeds, setFilteredFeeds] = useState(null);
@@ -228,6 +228,7 @@ export default function Home({ profile, socket }) {
                   id={profile.id}
                   socket={socket}
                   width={650}
+                  setRouteDirector={setRouteDirector}
                 ></EventShow>
               ))}
             </div>
@@ -249,6 +250,7 @@ export default function Home({ profile, socket }) {
                   id={profile.id}
                   socket={socket}
                   width={650}
+                  setRouteDirector={setRouteDirector}
                 ></EventShow>
               ))}
             </div>
@@ -274,6 +276,7 @@ export default function Home({ profile, socket }) {
                       socket={socket}
                       marginTop={i === 0 ? "60px" : null}
                       width={650}
+                      setRouteDirector={setRouteDirector}
                     ></EventShow>
                   ))}
                 </div>

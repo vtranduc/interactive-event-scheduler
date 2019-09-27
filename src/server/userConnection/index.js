@@ -4,7 +4,14 @@ const {
   registerNewUser
 } = require("../../../db/queries/queries");
 
-const userConnection = function(socket, io, pool, bcrypt, avatarDefault) {
+const userConnection = function(
+  socket,
+  io,
+  pool,
+  bcrypt,
+  avatarDefault,
+  backgroundDefault
+) {
   socket.on("userConnectionSignUp", data => {
     retrieveProfileByEmail(data.email, pool).then(res1 => {
       if (res1.length) {
@@ -25,6 +32,7 @@ const userConnection = function(socket, io, pool, bcrypt, avatarDefault) {
               lastName: data.lastName,
               avatar: avatarDefault,
               email: data.email,
+              background: backgroundDefault,
               bio: ""
             }
           });
@@ -43,6 +51,9 @@ const userConnection = function(socket, io, pool, bcrypt, avatarDefault) {
             firstName: res[0].first_name,
             lastName: res[0].last_name,
             avatar: res[0].avatar ? res[0].avatar : avatarDefault,
+            background: res[0].background
+              ? res[0].background
+              : backgroundDefault,
             email: data.email,
             bio: res[0].bio ? res[0].bio : ""
           }
@@ -66,6 +77,9 @@ const userConnection = function(socket, io, pool, bcrypt, avatarDefault) {
                 firstName: res[0].first_name,
                 lastName: res[0].last_name,
                 avatar: res[0].avatar ? res[0].avatar : avatarDefault,
+                background: res[0].background
+                  ? res[0].background
+                  : backgroundDefault,
                 email: data.email,
                 bio: res[0].bio ? res[0].bio : ""
               }
