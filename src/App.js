@@ -67,7 +67,12 @@ function App() {
     <>
       {initializingState ? (
         <Router>
-          {routeDirector && <Redirect to={routeDirector}></Redirect>}
+          {routeDirector && (
+            <div>
+              {console.log("SHOW ME REDIRECTION!: ", routeDirector)}
+              <Redirect to={routeDirector}></Redirect>
+            </div>
+          )}
           <NavBarWithRouter />
           <div className="overlayApp">
             <Switch>

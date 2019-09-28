@@ -89,7 +89,8 @@ export default function Profile({
           <div
             id="profile"
             style={{
-              backgroundImage: `url("${feeds.userInfo.background}")`
+              backgroundImage: `url("${feeds.userInfo.background}")`,
+              width: `${feedWithInPx}px`
             }}
           >
             <br></br>

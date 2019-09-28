@@ -15,7 +15,8 @@
 #profile {
   border-radius: 20px;
   overflow: hidden;
-  margin: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   background-size: cover;
   background-repeat: no-repeat;
 }
