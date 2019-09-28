@@ -17,16 +17,17 @@ const retrieveProfileByEmail = (email, pool) =>
 const registerNewUser = (email, firstName, lastName, pass, pool) =>
   pool
     .query({
-      text: `INSERT INTO users(email, first_name,last_name, pass) VALUES($1, $2, $3, $4)`,
-      values: [email, firstName, lastName, pass]
+      text: `INSERT INTO users(email, first_name,last_name, pass, bio)
+      VALUES($1, $2, $3, $4, $5)`,
+      values: [email, firstName, lastName, pass, ""]
     })
     .then(() => {
       return pool.query({
-        text: `SELECT id FROM users WHERE email = $1`,
-        values: [email]
+        text: `SELECT currval('users_id_seq')`,
+        values: []
       });
     })
-    .then(res => res.rows[0]);
+    .then(res => res.rows[0].currval);
 
 const retrieveJoinedEvents = (user_id, pool) => {
   let response;

@@ -62,15 +62,11 @@ function App() {
       routeDirector={routeDirector}
       setRouteDirector={setRouteDirector}
       logo={logo}
-      // socket={socket}
-      // searchStr={searchStr}
-      // setSearchStr={setSearchStr}
-      // navBarHeight={navBarHeight}
       {...props}
     ></NavBar>
   ));
   return (
-    <div>
+    <>
       {initializingState ? (
         <Router>
           {routeDirector && <Redirect to={routeDirector}></Redirect>}
@@ -106,6 +102,7 @@ function App() {
                 render={props => {
                   // setRouteDirector("/yaminoma");
                   // console.log("GO HERE PLEASSE");
+                  // console.log("")
                   if (!profile) {
                     setRouteDirector("/login");
                   }
@@ -145,7 +142,7 @@ function App() {
                 exact
                 render={() => {
                   if (profile) {
-                    setRouteDirector("/");
+                    setRouteDirector(`/user/${profile.id}`);
                   }
                   return (
                     <div className="overlayAssistApp">
@@ -193,7 +190,7 @@ function App() {
       ) : (
         <h2>Waiting for connection to the server...</h2>
       )}
-    </div>
+    </>
   );
 }
 

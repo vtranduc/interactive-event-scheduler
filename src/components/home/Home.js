@@ -6,6 +6,8 @@ import EventCreate from "./EventCreate";
 import SearchBox from "./SearchBox";
 import endSpaceRemover from "../../helpers/endSpaceRemover";
 
+const globalTracker = { feedMode: null };
+
 const ALL = "ALL";
 const CREATE = "CREATE";
 const UPCOMING = "UPCOMING";
@@ -120,11 +122,22 @@ export default function Home({ profile, socket, setRouteDirector }) {
     };
     socket.on("discoverEvents", handleDiscoverEvents);
     const handleUpdateFeeds = () => {
-      socket.emit("eventRetrieve", { userId: profile.id, modeSwitch: null });
+      if (globalTracker.feedMode === SEARCH) {
+        setSearchStr("");
+        setSearchedFeeds([]);
+        socket.emit("eventRetrieve", {
+          userId: profile.id,
+          modeSwitch: UPCOMING
+        });
+      } else {
+        socket.emit("eventRetrieve", {
+          userId: profile.id,
+          modeSwitch: null
+        });
+      }
     };
     socket.on("updateFeeds", handleUpdateFeeds);
     const handleSearchedEvents = data => {
-      console.log("getting my data HERE", data);
       setSearchedFeeds(data.searchResult);
     };
     socket.on("searchedEvent", handleSearchedEvents);
@@ -136,6 +149,10 @@ export default function Home({ profile, socket, setRouteDirector }) {
       socket.removeListener("searchedEvent", handleSearchedEvents);
     };
   }, [profile, socket]);
+
+  useEffect(() => {
+    globalTracker.feedMode = feedMode;
+  }, [feedMode]);
 
   useEffect(() => {
     if (feeds && socket) {
@@ -191,10 +208,6 @@ export default function Home({ profile, socket, setRouteDirector }) {
       setCreateData({ ...createData, trigger: false });
     }
   }, [createData.trigger]);
-
-  // useEffect(() => {
-  //   console.log("real time search: ", searchStr);
-  // }, [searchStr]);
 
   const handleSearch = () => {
     console.log("sending up: ", searchStr);
