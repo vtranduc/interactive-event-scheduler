@@ -6,8 +6,6 @@ import EventCreate from "./EventCreate";
 import SearchBox from "./SearchBox";
 import endSpaceRemover from "../../helpers/endSpaceRemover";
 
-const globalTracker = { feedMode: null };
-
 const ALL = "ALL";
 const CREATE = "CREATE";
 const UPCOMING = "UPCOMING";
@@ -15,6 +13,8 @@ const HAPPENING = "HAPPENING";
 const PAST = "PAST";
 const DISCOVER = "DISCOVER";
 const SEARCH = "SEARCH";
+
+const globalTracker = { feedMode: null, searchStr: "" };
 
 export default function Home({ profile, socket, setRouteDirector }) {
   const [feeds, setFeeds] = useState(null);
@@ -123,18 +123,16 @@ export default function Home({ profile, socket, setRouteDirector }) {
     socket.on("discoverEvents", handleDiscoverEvents);
     const handleUpdateFeeds = () => {
       if (globalTracker.feedMode === SEARCH) {
-        setSearchStr("");
-        setSearchedFeeds([]);
-        socket.emit("eventRetrieve", {
-          userId: profile.id,
-          modeSwitch: UPCOMING
-        });
-      } else {
+        handleSearch(globalTracker.searchStr);
         socket.emit("eventRetrieve", {
           userId: profile.id,
           modeSwitch: null
         });
       }
+      socket.emit("eventRetrieve", {
+        userId: profile.id,
+        modeSwitch: null
+      });
     };
     socket.on("updateFeeds", handleUpdateFeeds);
     const handleSearchedEvents = data => {
@@ -209,10 +207,13 @@ export default function Home({ profile, socket, setRouteDirector }) {
     }
   }, [createData.trigger]);
 
-  const handleSearch = () => {
-    console.log("sending up: ", searchStr);
-    const str = endSpaceRemover(searchStr);
+  const handleSearch = optionalSearchStr => {
+    // console.log("sending up: ", searchStr, optionalSearchStr);
+    const str = optionalSearchStr
+      ? optionalSearchStr
+      : endSpaceRemover(searchStr);
     if (str) {
+      globalTracker.searchStr = str;
       socket.emit("searchEvent", { search: str });
     }
   };
@@ -304,24 +305,3 @@ export default function Home({ profile, socket, setRouteDirector }) {
     </div>
   );
 }
-
-// {
-//   id: e.event_id,
-//   name: e.name,
-//   picture: e.picture,
-//   description: e.description,
-//   location: e.location,
-//   start: e.start_time,
-//   end: e.end_time,
-//   createdDate: e.created_time,
-//   joinedData: e.joined_time,
-//   admin: e.admin,
-//   participants: e.participants,
-//   creator: {
-//     id: e.creator_id,
-//     firstName: e.first_name,
-//     lastName: e.last_name,
-//     avatar: e.avatar ? e.avatar : avatarDefault,
-//     background: e.background ? e.background : backgroundDefault,
-//     bio: e.bio
-//   }

@@ -59,10 +59,7 @@ export default function EventShow({
   }));
 
   const classes = useStyles();
-  // const classesButton = useStylesButton();
   const [expanded, setExpanded] = React.useState(false);
-  // const [editMode, setEditMode] = React.useState(false);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -119,14 +116,7 @@ export default function EventShow({
           </div>
         ))}
       </div>
-      {/* </CardContent> */}
       <CardActions disableSpacing>
-        {/* <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
         {new Date().getTime() < new Date(event.end).getTime() && (
           <div className="eventBtnWrapper">
             {event.participants.map(e => e.user_id).includes(id) ? (

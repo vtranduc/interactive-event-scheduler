@@ -15,14 +15,12 @@ import Test from "./components/test/Test";
 const serverPORT = 3001;
 const logo =
   "https://upload.wikimedia.org/wikipedia/commons/5/5c/Olympic_rings_without_rims.svg";
-// const navBarHeight = "7vh";
 
 function App() {
   const [profile, setProfile] = useState(null);
   const [socket, setSocket] = useState(null);
   const [routeDirector, setRouteDirector] = useState(null);
   const [initializingState, setInitializingState] = useState(false);
-  // const [searchStr, setSearchStr] = useState("");
   let handleCookieCatch;
   useEffect(() => {
     console.log("initializing the application...");
@@ -72,7 +70,6 @@ function App() {
           {routeDirector && <Redirect to={routeDirector}></Redirect>}
           <NavBarWithRouter />
           <div className="overlayApp">
-            {/* <div className="overlayAssistApp"> */}
             <Switch>
               <Route
                 path="/"
@@ -100,9 +97,6 @@ function App() {
                 path="/user/:username"
                 exact
                 render={props => {
-                  // setRouteDirector("/yaminoma");
-                  // console.log("GO HERE PLEASSE");
-                  // console.log("")
                   if (!profile) {
                     setRouteDirector("/login");
                   }
@@ -184,7 +178,6 @@ function App() {
                 }}
               ></Route>
             </Switch>
-            {/* </div> */}
           </div>
         </Router>
       ) : (

@@ -2,8 +2,6 @@ const app = require("express")();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const PORT = 3001;
-const cors = require("cors");
-const bodyParser = require("body-parser");
 const { Pool } = require("pg");
 const pool = new Pool({
   user: "postgres",

@@ -1,6 +1,4 @@
 const {
-  // retrieveProfileByEmail,
-  // registerNewUser,
   retrieveJoinedEvents,
   addEvent,
   discoverEvents,
@@ -33,7 +31,13 @@ const eventDataAccess = function(
             end: e.end_time,
             createdDate: e.created_time,
             admin: e.admin,
-            participants: e.participants,
+            participants: e.participants.map(e => {
+              return {
+                ...e,
+                avatar: e.avatar ? e.avatar : avatarDefault,
+                background: e.background ? e.background : backgroundDefault
+              };
+            }),
             creator: {
               id: e.creator_id,
               firstName: e.first_name,
@@ -69,7 +73,13 @@ const eventDataAccess = function(
             end: e.end_time,
             createdDate: e.created_time,
             admin: false,
-            participants: e.participants,
+            participants: e.participants.map(e => {
+              return {
+                ...e,
+                avatar: e.avatar ? e.avatar : avatarDefault,
+                background: e.background ? e.background : backgroundDefault
+              };
+            }),
             creator: {
               id: e.creator_id,
               firstName: e.first_name,
@@ -111,28 +121,6 @@ const eventDataAccess = function(
 
   socket.on("searchEvent", data => {
     searchEvent(data.search, pool).then(res => {
-      // const test = res.map(e => {
-      //   return {
-      //     id: e.id,
-      //     name: e.name,
-      //     picture: e.picture,
-      //     description: e.description,
-      //     location: e.location,
-      //     start: e.start_time,
-      //     end: e.end_time,
-      //     createdDate: e.created_time,
-      //     admin: false,
-      //     participants: e.participants,
-      //     creator: {
-      //       id: e.creator_id,
-      //       firstName: e.first_name,
-      //       lastName: e.last_name,
-      //       avatar: e.avatar ? e.avatar : avatarDefault,
-      //       background: e.background ? e.background : backgroundDefault,
-      //       bio: e.bio
-      //     }
-      //   };
-      // });
       io.to(socket.id).emit("searchedEvent", {
         searchResult: res.map(e => {
           return {
@@ -145,7 +133,13 @@ const eventDataAccess = function(
             end: e.end_time,
             createdDate: e.created_time,
             admin: false,
-            participants: e.participants,
+            participants: e.participants.map(e => {
+              return {
+                ...e,
+                avatar: e.avatar ? e.avatar : avatarDefault,
+                background: e.background ? e.background : backgroundDefault
+              };
+            }),
             creator: {
               id: e.creator_id,
               firstName: e.first_name,
@@ -160,26 +154,5 @@ const eventDataAccess = function(
     });
   });
 };
-
-// d: eventId,
-//                   start: editData.start_time,
-//                   end: editData.end_time,
-//                   name: editData.name,
-//                   picture: editData.picture,
-//                   description: editData.description,
-//                   location: editData.location
-
-// CREATE TABLE events
-// (
-//   id SERIAL PRIMARY KEY NOT NULL,
-//   creator_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-//   name VARCHAR(255) NOT NULL,
-//   picture VARCHAR(255) NOT NULL,
-//   description TEXT NOT NULL,
-//   location VARCHAR(255) NOT NULL,
-//   start_time TIMESTAMP NOT NULL,
-//   end_time TIMESTAMP NOT NULL,
-//   created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
 
 module.exports = eventDataAccess;
