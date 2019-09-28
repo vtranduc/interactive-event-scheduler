@@ -208,13 +208,14 @@ export default function Home({ profile, socket, setRouteDirector }) {
   }, [createData.trigger]);
 
   const handleSearch = optionalSearchStr => {
-    // console.log("sending up: ", searchStr, optionalSearchStr);
-    const str = optionalSearchStr
-      ? optionalSearchStr
-      : endSpaceRemover(searchStr);
-    if (str) {
-      globalTracker.searchStr = str;
-      socket.emit("searchEvent", { search: str });
+    if (optionalSearchStr) {
+      socket.emit("searchEvent", { search: optionalSearchStr });
+    } else {
+      const str = endSpaceRemover(searchStr);
+      if (str) {
+        globalTracker.searchStr = str;
+        socket.emit("searchEvent", { search: str });
+      }
     }
   };
 
